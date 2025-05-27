@@ -1,0 +1,15 @@
+[
+    {
+        "id": "pmt_empty_123",
+        "patientId": "pt_empty_123",
+        "isDefault": false,
+        "cardholderName": "",
+        "billingAddress": {
+            "address": "",
+            "city": "",
+            "state": "",
+            "zipCode": "",
+            "country": ""
+        }
+    }
+]

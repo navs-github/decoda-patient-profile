@@ -1,0 +1,31 @@
+[
+    {
+        "id": "evt_empty_123",
+        "title": "",
+        "organizer": {
+            "id": "usr_empty_123",
+            "firstName": "",
+            "lastName": "",
+            "email": ""
+        },
+        "attendees": [],
+        "location": {
+            "id": "loc_empty_123",
+            "name": "",
+            "address": "",
+            "city": "",
+            "state": "",
+            "zipCode": "",
+            "country": "",
+            "isVirtual": false
+        },
+        "formCompleted": false,
+        "appointment": {
+            "id": "apt_empty_123",
+            "eventId": "evt_empty_123",
+            "patientId": "pt_empty_123",
+            "providerId": "usr_empty_123",
+            "reason": ""
+        }
+    }
+]

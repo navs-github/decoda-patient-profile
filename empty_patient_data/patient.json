@@ -1,0 +1,21 @@
+{
+    "id": "pt_empty_123",
+    "firstName": "",
+    "lastName": "",
+    "phoneNumber": "",
+    "email": "",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zipCode": "",
+    "country": "",
+    "addressValid": false,
+    "allergies": [],
+    "familyHistory": [],
+    "medicalHistory": [],
+    "prescriptions": [],
+    "isOnboardingComplete": false,
+    "createdDate": "2024-03-20T00:00:00Z",
+    "measurements": [],
+    "medications": []
+}
