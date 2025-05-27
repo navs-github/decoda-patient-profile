@@ -36,11 +36,20 @@ export const getConversationEntries = (): ConversationEntry[] => {
             id: alert.id,
             type: "message" as const,
             title: "Message from Patient",
-            content: alert.data.message,
-            date: alert.createdDate,
+            content:
+                typeof alert.data?.message === 'string'
+                    ? alert.data.message
+                    : (alert.data?.message ? String(alert.data.message) : ""),
+            date: alert.createdDate ?? "",
             creator: {
-                firstName: alert.data.patient.firstName,
-                lastName: alert.data.patient.lastName
+                firstName:
+                    alert.data?.patient && typeof alert.data.patient === 'object' && 'firstName' in alert.data.patient
+                        ? (alert.data.patient.firstName as string)
+                        : "",
+                lastName:
+                    alert.data?.patient && typeof alert.data.patient === 'object' && 'lastName' in alert.data.patient
+                        ? (alert.data.patient.lastName as string)
+                        : ""
             }
         }))
 
@@ -48,11 +57,17 @@ export const getConversationEntries = (): ConversationEntry[] => {
         id: note.id,
         type: "note" as const,
         title: note.aiGenerated ? "AI-Generated Note" : "Doctor's Note",
-        content: note.content,
-        date: note.createdDate,
+        content: note.content ?? "",
+        date: note.createdDate ?? "",
         creator: {
-            firstName: note.providerNames[0].split(" ")[1],
-            lastName: note.providerNames[0].split(" ")[2]
+            firstName:
+                note.providerNames && note.providerNames.length > 0 && note.providerNames[0].split(" ")[1]
+                    ? note.providerNames[0].split(" ")[1]
+                    : "",
+            lastName:
+                note.providerNames && note.providerNames.length > 0 && note.providerNames[0].split(" ")[2]
+                    ? note.providerNames[0].split(" ")[2]
+                    : ""
         },
         eventId: note.eventId,
         eventTitle: events.find(e => e.id === note.eventId)?.title
@@ -62,9 +77,11 @@ export const getConversationEntries = (): ConversationEntry[] => {
         id: memo.id,
         type: "memo" as const,
         title: "Memo",
-        content: memo.note,
-        date: memo.createdDate,
+        content: memo.note ?? "",
+        date: memo.createdDate ?? "",
         creator: memo.creator
+            ? { firstName: memo.creator.firstName, lastName: memo.creator.lastName }
+            : { firstName: "", lastName: "" },
     }))
 
     return [...patientMessages, ...clinicalNotes, ...staffMemos]
@@ -77,9 +94,9 @@ export const getEventGroups = (): EventGroup[] => {
     const eventGroups = events.map(event => ({
         event: {
             id: event.id,
-            title: event.title,
-            date: event.start,
-            type: event.type
+            title: event.title ?? "",
+            date: event.start ?? "",
+            type: event.type ?? ""
         },
         conversations: conversationEntries
             .filter(entry => entry.eventId === event.id)

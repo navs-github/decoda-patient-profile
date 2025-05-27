@@ -28,7 +28,13 @@ export interface Action {
 // Extended suggestion function to handle both conversations and alerts
 export const suggestAction = (entry: ConversationEntry | Alert): ActionType => {
     // Handle conversation entries
-    if ('type' in entry && ['message', 'note', 'memo', 'event'].includes(entry.type)) {
+    if (
+        'type' in entry &&
+        typeof entry.type === 'string' &&
+        ['message', 'note', 'memo', 'event'].includes(entry.type) &&
+        'content' in entry &&
+        typeof entry.content === 'string'
+    ) {
         const content = entry.content.toLowerCase()
 
         if (entry.type === "message") {

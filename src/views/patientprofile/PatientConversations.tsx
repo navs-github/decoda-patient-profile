@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/data"
 import {
     Calendar,
@@ -11,24 +10,13 @@ import {
     Stethoscope,
     FileText,
     ChevronDown,
-    ChevronUp,
-    Phone,
-    CalendarPlus,
-    ClipboardList,
-    AlertCircle,
-    CheckCircle2,
-    Clock,
-    Send
+    ChevronUp
 } from "lucide-react"
 import {
     ConversationEntry,
-    EventGroup,
-    getConversationEntries,
     getEventGroups
 } from "@/services/patientConversationService"
 import {
-    ActionType,
-    Action,
     getConversationActions,
     suggestAction
 } from "@/services/patientActionService"

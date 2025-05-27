@@ -11,8 +11,8 @@ export interface Patient {
     zipCode?: string
     country?: string
     addressValid?: boolean
-    guardianName?: string
-    guardianPhoneNumber?: string
+    guardianName?: string | null
+    guardianPhoneNumber?: string | null
     maritalStatus?: string
     gender?: string
     employmentStatus?: string
@@ -45,20 +45,20 @@ export interface Medication {
     dosage: string
     frequency: string
     startDate: string
-    endDate?: string
+    endDate?: string | null
     active: boolean
 }
 
 export interface Alert {
     id: string
     type?: string
-    data?: any
+    data?: Record<string, unknown>
     createdDate?: string
     actionRequired?: boolean
     resolvedDate?: string
     tags?: { id: string; name: string }[]
     assignedProvider?: Provider
-    resolvingProvider?: Provider
+    resolvingProvider?: Provider | null
     occurances?: number
     patient?: {
         id: string
@@ -95,11 +95,47 @@ export interface Charge {
     }
     createdDate?: string
     creator?: Provider
-    adjustments?: any[]
-    payments?: any[]
-    plannedPayments?: any[]
+    adjustments?: Array<{
+        id: string
+        amount: number
+        description: string
+        date: string
+    }>
+    payments?: Array<{
+        id: string
+        amount: number
+        createdDate: string
+        paymentMethod: {
+            id: string
+            brand: string
+            last4: string
+            expMonth: number
+            expYear: number
+        }
+        paymentMedium: string
+        refunds: object[]
+    }>
+    plannedPayments?: Array<{
+        id: string
+        amount: number
+        paymentDate: string
+        status: string
+    }>
     comment?: string
-    items?: any[]
+    items?: Array<{
+        item_id: string
+        charge_id: string
+        quantity: number
+        item: {
+            id: string
+            name: string
+            description: string
+            price: number
+            active: boolean
+            createdDate: string
+            category: string
+        }
+    }>
     locationId?: string
     locationName?: string
 }
@@ -108,14 +144,14 @@ export interface DoctorsNote {
     id: string
     eventId?: string
     parentNoteId?: string
-    noteTranscriptId?: string
-    duration?: number
+    noteTranscriptId?: string | null
+    duration?: number | string | null
     version?: number
     currentVersion?: number
     content?: string
     summary?: string
     aiGenerated?: boolean
-    template?: string
+    template?: string | null
     patient?: {
         id: string
         firstName?: string
@@ -203,12 +239,12 @@ export interface PaymentMethod {
     patientId: string
     brand?: string
     last4?: string
-    expMonth?: number
-    expYear?: number
+    expMonth?: string | number
+    expYear?: string | number
     accountHolderType?: string
-    accountNumberLast4?: number
+    accountNumberLast4?: string | number
     bankName?: string
-    routingNumber?: number
+    routingNumber?: string | number
     description?: string
     type?: string
     isDefault?: boolean

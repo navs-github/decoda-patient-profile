@@ -1,9 +1,7 @@
 "use client"
 
-import { User, Calendar, Phone, Mail, MapPin, Pencil } from "lucide-react"
+import { User, Calendar, Phone, Mail, MapPin } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import TextDetail from "@/components/ui/TextDetail"
 
 interface PatientInfoCardProps {

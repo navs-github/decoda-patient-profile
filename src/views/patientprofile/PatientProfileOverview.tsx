@@ -1,64 +1,38 @@
 "use client"
 
-import { useState } from "react"
 import {
-    AlertTriangle,
-    CalendarPlus,
-    ChevronDown,
-    ChevronUp,
     CircleDollarSign,
     CreditCard,
     FilePenLine,
-    MessageSquare,
     PlusCircle,
     Stethoscope,
     User,
-    Phone,
-    Mail,
     Calendar,
-    LucideIcon,
-    ClipboardList,
-    Bell,
-    FileText,
-    MessageCircle,
     Clock,
-    AlertCircle,
     Pencil,
-    MapPin,
     Scale,
     Ruler,
     HeartPulse,
 } from "lucide-react"
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import TextDetail from "@/components/ui/TextDetail"
 
 import {
     getPatient,
     getCharges,
-    getDoctorsNotes,
     getEvents,
-    getMemos,
     getPaymentMethods,
     formatDate,
-    calculateAge,
 } from "@/lib/data"
-
-import { suggestAction, getConversationActions } from "@/services/patientActionService"
 
 export default function PatientProfileOverview() {
     const patient = getPatient()
     const charges = getCharges()
-    const doctorsNotes = getDoctorsNotes()
     const events = getEvents()
-    const memos = getMemos()
     const paymentMethods = getPaymentMethods()
-
-    const actions = getConversationActions()
 
     const upcomingAppointments = events
         .filter((event) => event.start && new Date(event.start) > new Date())
@@ -199,164 +173,141 @@ export default function PatientProfileOverview() {
                     </Card>
                     <Card className="md:col-span-2">
                         <CardHeader>
+                            <CardTitle className="text-lg">Upcoming Appointments</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {upcomingAppointments.length === 0 ? (
+                                <div className="text-center py-4 text-gray-500">
+                                    No upcoming appointments
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    {upcomingAppointments.map((appointment) => (
+                                        <div key={appointment.id} className="flex items-start space-x-4">
+                                            <div className="flex-shrink-0">
+                                                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                                    <Calendar className="h-5 w-5 text-blue-600" />
+                                                </div>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-medium text-gray-900">
+                                                    {appointment.title || "Appointment"}
+                                                </p>
+                                                <p className="text-sm text-gray-500">
+                                                    {appointment.start ? formatDate(appointment.start) : "No date set"}
+                                                </p>
+                                                {appointment.appointment?.reason && (
+                                                    <p className="text-sm text-gray-600 mt-1">
+                                                        Reason: {appointment.appointment.reason}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <div className="mt-4 flex justify-center">
+                                <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                                    <PlusCircle className="h-4 w-4 mr-1" />
+                                    Schedule Appointment
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                    <Card className="md:col-span-2">
+                        <CardHeader>
                             <CardTitle className="text-lg">Active Prescriptions</CardTitle>
                         </CardHeader>
-                        <CardContent className="space-y-3">
-                            <div className="space-y-3">
-                                {activePrescriptions.length === 0 ? (
-                                    <div className="text-center text-gray-500 py-6">
-                                        <Stethoscope className="mx-auto mb-2 h-6 w-6 text-blue-200" />
-                                        <div className="font-medium">No active prescriptions</div>
-                                    </div>
-                                ) : (
-                                    <>
-                                        {activePrescriptions.slice(0, 3).map((medication) => (
-                                            <div key={medication.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                                <div>
-                                                    <p className="font-medium text-sm">{medication.name}</p>
-                                                    <p className="text-xs text-gray-600">{medication.frequency}</p>
-                                                    <p className="text-xs text-gray-500 mt-0.5">
-                                                        {medication.dosage && <span>{medication.dosage}</span>}
-                                                        {medication.startDate && (
-                                                            <span>
-                                                                {medication.dosage ? ' • ' : ''}Started {formatDate(medication.startDate, false)}
-                                                            </span>
-                                                        )}
-                                                        {medication.endDate && (
-                                                            <span>
-                                                                {' • '}Scheduled to end {formatDate(medication.endDate, false)}
-                                                            </span>
-                                                        )}
-                                                    </p>
+                        <CardContent>
+                            {activePrescriptions.length === 0 ? (
+                                <div className="text-center py-4 text-gray-500">
+                                    No active prescriptions
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    {activePrescriptions.map((medication) => (
+                                        <div key={medication.id} className="flex items-start space-x-4">
+                                            <div className="flex-shrink-0">
+                                                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                                    <Stethoscope className="h-5 w-5 text-blue-600" />
                                                 </div>
-                                                <Button size="sm" variant="outline">
-                                                    Refill
-                                                </Button>
                                             </div>
-                                        ))}
-                                        {activePrescriptions.length > 3 && (
-                                            <div className="text-center text-xs text-gray-500">
-                                                +{activePrescriptions.length - 3} more prescriptions
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-medium text-gray-900">
+                                                    {medication.name}
+                                                </p>
+                                                <p className="text-sm text-gray-500">
+                                                    {medication.dosage} • {medication.frequency}
+                                                </p>
+                                                <p className="text-sm text-gray-600 mt-1">
+                                                    Started: {formatDate(medication.startDate)}
+                                                </p>
                                             </div>
-                                        )}
-                                        <Button variant="ghost" className="w-full text-blue-600 hover:text-blue-700 hover:bg-blue-50 text-sm mt-2">
-                                            <Stethoscope className="h-4 w-4 mr-1" />
-                                            View all prescriptions
-                                        </Button>
-                                    </>
-                                )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <div className="mt-4 flex justify-center">
+                                <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                                    <FilePenLine className="h-4 w-4 mr-1" />
+                                    Request Prescription
+                                </Button>
                             </div>
                         </CardContent>
                     </Card>
                 </div>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">Billing Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-500">Total Outstanding</span>
+                                <span className="text-lg font-semibold">${totalOutstanding.toFixed(2)}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-500">Payment Methods</span>
+                                <span className="text-sm text-gray-900">
+                                    {paymentMethods.length} {paymentMethods.length === 1 ? "method" : "methods"}
+                                </span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-500">Last Payment</span>
+                                <span className="text-sm text-gray-900">
+                                    {charges.length > 0 && charges[0].createdDate ? formatDate(charges[0].createdDate) : "No payments"}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="mt-4 flex justify-center">
+                            <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                                <CreditCard className="h-4 w-4 mr-1" />
+                                Make Payment
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-lg">Quick Actions</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-2 gap-3">
-                            <Button variant="default" className="h-16 flex flex-col items-center justify-center space-y-1 bg-blue-600 hover:bg-blue-700">
-                                <PlusCircle className="h-5 w-5" />
-                                <span className="text-xs">New Doctor's Note</span>
+                        <div className="grid grid-cols-2 gap-4">
+                            <Button variant="outline" className="h-auto py-3">
+                                <div className="flex flex-col items-center">
+                                    <User className="h-5 w-5 mb-1" />
+                                    <span className="text-xs">Update Profile</span>
+                                </div>
                             </Button>
-                            <Button variant="outline" className="h-16 flex flex-col items-center justify-center space-y-1">
-                                <FilePenLine className="h-5 w-5" />
-                                <span className="text-xs">Create Memo</span>
-                            </Button>
-                            <Button variant="outline" className="h-16 flex flex-col items-center justify-center space-y-1">
-                                <CalendarPlus className="h-5 w-5" />
-                                <span className="text-xs">Schedule Appointment</span>
-                            </Button>
-                            <Button variant="outline" className="h-16 flex flex-col items-center justify-center space-y-1">
-                                <CircleDollarSign className="h-5 w-5" />
-                                <span className="text-xs">Charge Patient</span>
+                            <Button variant="outline" className="h-auto py-3">
+                                <div className="flex flex-col items-center">
+                                    <CircleDollarSign className="h-5 w-5 mb-1" />
+                                    <span className="text-xs">View Billing</span>
+                                </div>
                             </Button>
                         </div>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">Upcoming Events</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                        {upcomingAppointments.length === 0 ? (
-                            <div className="text-center text-gray-500 py-6">
-                                <Calendar className="mx-auto mb-2 h-6 w-6 text-gray-400" />
-                                <div className="font-medium">No upcoming events</div>
-                            </div>
-                        ) : (
-                            <>
-                                {upcomingAppointments.map((appointment) => (
-                                    <div key={appointment.id} className="p-3 bg-gray-50 rounded-lg mb-3">
-                                        <div className="flex items-center space-x-2 mb-2">
-                                            <Calendar className="h-4 w-4 text-gray-600" />
-                                            <span className="font-medium text-gray-900">{appointment.title || "Untitled Appointment"}</span>
-                                        </div>
-                                        <div className="space-y-1.5 text-sm text-gray-700">
-                                            <div className="flex items-center space-x-2">
-                                                <Calendar className="h-4 w-4" />
-                                                <span>{appointment.start ? formatDate(appointment.start, false) : "No date"}</span>
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <Clock className="h-4 w-4" />
-                                                <span>
-                                                    {appointment.start && appointment.end ?
-                                                        `${new Date(appointment.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} - ${new Date(appointment.end).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`
-                                                        : "No time specified"}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <User className="h-4 w-4" />
-                                                <span>Dr. {appointment.organizer?.lastName || "Unknown"}</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex space-x-2 mt-2">
-                                            <Button variant="outline" size="sm" className="flex-1 text-xs">
-                                                Reschedule
-                                            </Button>
-                                            <Button variant="outline" size="sm" className="flex-1 text-xs">
-                                                Send Reminder
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                                <Separator className="my-4" />
-                                <Button variant="ghost" className="w-full text-blue-600 hover:text-blue-700 hover:bg-blue-50 text-sm">
-                                    <Calendar className="h-4 w-4 mr-1" />
-                                    View in Schedule
-                                </Button>
-                            </>
-                        )}
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">Financials</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="text-center p-4 bg-red-50 rounded-lg">
-                            <p className="text-sm text-red-600 mb-1">Outstanding Balance</p>
-                            <p className="text-2xl font-bold text-red-700">${totalOutstanding.toFixed(2)}</p>
-                        </div>
-                        <div className="space-y-2">
-                            {charges
-                                .filter((charge) => (charge.totalOutstanding || 0) > 0)
-                                .map((charge) => (
-                                    <div key={charge.id} className="flex justify-between text-sm">
-                                        <span>{charge.description || "Unnamed charge"}</span>
-                                        <span className="text-red-600">${(charge.totalOutstanding || 0).toFixed(2)} remaining</span>
-                                    </div>
-                                ))}
-                        </div>
-                        <Separator />
-                        {paymentMethods.length > 0 && paymentMethods[0].brand && paymentMethods[0].last4 && (
-                            <Button className="w-full">
-                                <CreditCard className="h-4 w-4 mr-1" />
-                                Charge {paymentMethods[0].brand} **** {paymentMethods[0].last4}
-                            </Button>
-                        )}
                     </CardContent>
                 </Card>
             </div>

@@ -1,4 +1,3 @@
-import { Patient } from "@/lib/types"
 import { getPatient as getRawPatient, calculateAge, formatDate } from "@/lib/data"
 
 export interface FormattedPatientInfo {

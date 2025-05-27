@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { getPatientTimeline, type TimelineEntry } from "@/services/patientTimelineService"
 import { ClipboardList, ChevronDown } from "lucide-react"
 

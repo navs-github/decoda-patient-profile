@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 const navigation = [
@@ -14,18 +14,18 @@ const navigation = [
 ]
 
 export default function Header() {
-    const pathname = usePathname()
-
     return (
         <header className="bg-white border-b border-gray-200">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center w-full">
                         <Link href="/" className="flex-shrink-0">
-                            <img
+                            <Image
                                 className="h-6 w-auto sm:h-8"
                                 src="https://cdn.prod.website-files.com/67088817b6e65486dfaf833b/670c95f56b16bdfbeb944c20_Decoda%20Health%20logo.svg"
                                 alt="Decoda Health"
+                                width={120}
+                                height={32}
                             />
                         </Link>
                         <nav className="ml-8 flex space-x-8 hidden sm:flex">

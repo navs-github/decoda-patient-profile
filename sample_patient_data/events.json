@@ -12,7 +12,7 @@
     "end": "2025-07-10T14:30:00.000Z",
     "type": "APPOINTMENT",
     "status": "COMPLETED",
-    "meetingLink": null,
+    "meetingLink": "",
     "attendees": [
       {
         "user": {
@@ -51,7 +51,7 @@
       "zipCode": "98101",
       "country": "USA",
       "isVirtual": false,
-      "meetingLink": null
+      "meetingLink": ""
     },
     "formCompleted": true,
     "appointment": {
@@ -62,7 +62,7 @@
       "reason": "Follow-up for seasonal allergies",
       "confirmationStatus": "CONFIRMED",
       "confirmationDate": "2023-08-15T09:22:00.000Z",
-      "checkedInDate": "2023-08-20T13:50:00.000Z",
+      "checkedInDate": "",
       "appointmentType": "FOLLOW_UP"
     }
   },
@@ -79,7 +79,7 @@
     "end": "2025-07-15T09:30:00.000Z",
     "type": "APPOINTMENT",
     "status": "COMPLETED",
-    "meetingLink": null,
+    "meetingLink": "",
     "attendees": [
       {
         "user": {
@@ -109,7 +109,7 @@
       "zipCode": "98101",
       "country": "USA",
       "isVirtual": false,
-      "meetingLink": null
+      "meetingLink": ""
     },
     "formCompleted": true,
     "appointment": {
@@ -120,7 +120,7 @@
       "reason": "Regular asthma check-up",
       "confirmationStatus": "CONFIRMED",
       "confirmationDate": "2023-05-05T14:30:00.000Z",
-      "checkedInDate": "2023-05-10T08:55:00.000Z",
+      "checkedInDate": "",
       "appointmentType": "FOLLOW_UP"
     }
   },
@@ -137,7 +137,7 @@
     "end": "2023-03-15T11:30:00.000Z",
     "type": "APPOINTMENT",
     "status": "COMPLETED",
-    "meetingLink": null,
+    "meetingLink": "",
     "attendees": [
       {
         "user": {
@@ -167,7 +167,7 @@
       "zipCode": "98101",
       "country": "USA",
       "isVirtual": false,
-      "meetingLink": null
+      "meetingLink": ""
     },
     "formCompleted": true,
     "appointment": {
@@ -178,7 +178,7 @@
       "reason": "New patient initial consultation",
       "confirmationStatus": "CONFIRMED",
       "confirmationDate": "2023-03-12T08:15:00.000Z",
-      "checkedInDate": "2023-03-15T10:20:00.000Z",
+      "checkedInDate": "",
       "appointmentType": "NEW_PATIENT"
     }
   },
@@ -195,7 +195,7 @@
     "end": "2024-03-20T12:00:00.000Z",
     "type": "APPOINTMENT",
     "status": "CONFIRMED",
-    "meetingLink": null,
+    "meetingLink": "",
     "attendees": [
       {
         "user": {
@@ -225,7 +225,7 @@
       "zipCode": "98101",
       "country": "USA",
       "isVirtual": false,
-      "meetingLink": null
+      "meetingLink": ""
     },
     "formCompleted": false,
     "appointment": {
@@ -236,7 +236,7 @@
       "reason": "Annual physical examination",
       "confirmationStatus": "CONFIRMED",
       "confirmationDate": "2024-03-01T16:45:00.000Z",
-      "checkedInDate": null,
+      "checkedInDate": "",
       "appointmentType": "ANNUAL_PHYSICAL"
     }
   }
