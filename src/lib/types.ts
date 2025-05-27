@@ -11,8 +11,8 @@ export interface Patient {
     zipCode?: string
     country?: string
     addressValid?: boolean
-    guardianName?: string | null
-    guardianPhoneNumber?: string | null
+    guardianName?: string
+    guardianPhoneNumber?: string
     maritalStatus?: string
     gender?: string
     employmentStatus?: string
@@ -55,7 +55,7 @@ export interface Alert {
     data?: Record<string, unknown>
     createdDate?: string
     actionRequired?: boolean
-    resolvedDate?: string
+    resolvedDate?: string | null
     tags?: { id: string; name: string }[]
     assignedProvider?: Provider
     resolvingProvider?: Provider | null
@@ -97,7 +97,9 @@ export interface Charge {
     creator?: Provider
     adjustments?: Array<{
         id: string
+        chargeId: string
         amount: number
+        type: string
         description: string
         date: string
     }>
@@ -113,7 +115,12 @@ export interface Charge {
             expYear: number
         }
         paymentMedium: string
-        refunds: object[]
+        refunds: Array<{
+            id: string
+            amount: number
+            date: string
+            reason?: string
+        }>
     }>
     plannedPayments?: Array<{
         id: string
@@ -145,7 +152,7 @@ export interface DoctorsNote {
     eventId?: string
     parentNoteId?: string
     noteTranscriptId?: string | null
-    duration?: number | string | null
+    duration?: number | null
     version?: number
     currentVersion?: number
     content?: string

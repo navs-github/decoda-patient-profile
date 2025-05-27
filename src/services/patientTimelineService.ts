@@ -1,4 +1,4 @@
-import { LucideIcon, Stethoscope, CreditCard, FileText, AlertCircle } from "lucide-react"
+import { LucideIcon, MessageSquare, Stethoscope, CreditCard, Bell, ClipboardList, Calendar, MessageCircle } from "lucide-react"
 import { getAlerts, getCharges, getDoctorsNotes, getMemos, formatDate } from "@/lib/data"
 
 export interface TimelineEntry {
@@ -13,12 +13,45 @@ export interface TimelineEntry {
     actionLabel?: string
 }
 
+interface AlertData {
+    name?: string
+    title?: string
+    start?: string
+    message?: string
+}
+
+const alertTypeToIcon: Record<string, LucideIcon> = {
+    FORM_SUBMITTED: ClipboardList,
+    APPOINTMENT_SCHEDULED: Calendar,
+    MESSAGE_RECEIVED: MessageCircle,
+    DEFAULT: Bell,
+}
+
+const alertTypeToTitle: Record<string, string> = {
+    FORM_SUBMITTED: "Form Submitted",
+    APPOINTMENT_SCHEDULED: "Appointment Scheduled",
+    MESSAGE_RECEIVED: "New Message",
+}
+
+const alertTypeToSummaryFormatter: Record<string, (data: AlertData) => string> = {
+    FORM_SUBMITTED: (data) => `${data.name} submitted`,
+    APPOINTMENT_SCHEDULED: (data) => data.title
+        ? `${data.title} scheduled for ${data.start ? formatDate(data.start) : "Unknown date"}`
+        : "Appointment scheduled",
+    MESSAGE_RECEIVED: (data) => data.message ?? "No message",
+    DEFAULT: () => "Action required",
+}
+
+const alertTypeToActionLabel: Record<string, string> = {
+    MESSAGE_RECEIVED: "Reply",
+    APPOINTMENT_SCHEDULED: "View Details",
+    FORM_SUBMITTED: "Review Form",
+}
+
 const timelineTypeToActionLabel: Record<string, string | ((type: string) => string)> = {
-    memo: "View Memo",
-    alert: (type: string) => `View ${type} Alert`,
-    doctorsNote: "View Note",
-    charge: "View Charge",
-    event: "View Event",
+    memo: "Reply",
+    billing: "View Invoice",
+    alert: (type: string) => alertTypeToActionLabel[type] || "View Details",
 }
 
 export const getPatientTimeline = (): TimelineEntry[] => {
@@ -31,11 +64,12 @@ export const getPatientTimeline = (): TimelineEntry[] => {
         ...memos.map((memo) => ({
             id: memo.id,
             type: "memo",
-            icon: FileText,
-            title: "Memo",
+            icon: MessageSquare,
+            title: `Memo from ${memo.creator?.firstName || "Unknown"} ${memo.creator?.lastName || ""}`.trim(),
+            date: formatDate(memo.createdDate ?? ""),
             summary: memo.note ?? "",
-            date: memo.createdDate ?? "",
-            category: "memo",
+            category: "Communications",
+            actionLabel: timelineTypeToActionLabel.memo as string,
         })),
         ...doctorsNotes.map((note) => ({
             id: note.id,
@@ -62,16 +96,14 @@ export const getPatientTimeline = (): TimelineEntry[] => {
         ...alerts.map((alert) => ({
             id: alert.id,
             type: "alert",
-            icon: AlertCircle,
-            title: alert.type ?? "Alert",
-            summary: (
-                typeof alert.data?.message === 'string' ? alert.data.message :
-                    typeof alert.data?.title === 'string' ? alert.data.title :
-                        typeof alert.data?.name === 'string' ? alert.data.name :
-                            ""
-            ),
-            date: alert.createdDate ?? "",
-            category: "alert",
+            icon: alertTypeToIcon[alert.type ?? "DEFAULT"] || Bell,
+            title: alertTypeToTitle[alert.type ?? "DEFAULT"] || alert.type || "Alert",
+            date: formatDate(alert.createdDate ?? ""),
+            summary: (alertTypeToSummaryFormatter[alert.type ?? "DEFAULT"] || alertTypeToSummaryFormatter.DEFAULT)(alert.data ?? {}),
+            category: "Alerts",
+            actionLabel: typeof timelineTypeToActionLabel.alert === 'function'
+                ? (timelineTypeToActionLabel.alert as (type: string) => string)(alert.type ?? "DEFAULT")
+                : undefined,
         })),
     ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 

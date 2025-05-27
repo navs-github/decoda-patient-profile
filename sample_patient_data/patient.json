@@ -11,16 +11,28 @@
   "zipCode": "98101",
   "country": "USA",
   "addressValid": true,
-  "guardianName": null,
-  "guardianPhoneNumber": null,
+  "guardianName": "",
+  "guardianPhoneNumber": "",
   "maritalStatus": "MARRIED",
   "gender": "FEMALE",
   "employmentStatus": "EMPLOYED",
   "dateOfBirth": "1985-07-15",
-  "allergies": ["Penicillin", "Peanuts"],
-  "familyHistory": ["Diabetes", "Hypertension"],
-  "medicalHistory": ["Asthma", "Seasonal allergies"],
-  "prescriptions": ["Albuterol inhaler", "Zyrtec"],
+  "allergies": [
+    "Penicillin",
+    "Peanuts"
+  ],
+  "familyHistory": [
+    "Diabetes",
+    "Hypertension"
+  ],
+  "medicalHistory": [
+    "Asthma",
+    "Seasonal allergies"
+  ],
+  "prescriptions": [
+    "Albuterol inhaler",
+    "Zyrtec"
+  ],
   "goalWeight": 145,
   "isOnboardingComplete": true,
   "createdDate": "2022-03-15T10:30:00Z",
